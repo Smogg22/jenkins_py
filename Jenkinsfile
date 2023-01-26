@@ -1,48 +1,25 @@
 pipeline {
-  agent any
-  stages {
-    stage('test1') {
-      parallel {
-        stage('test1') {
-          steps {
-            sh 'echo "Bonjour le test windows"'
-          }
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
         }
-
-        stage('test2') {
-          steps {
-            sh '''echo "Pumpelup test linux"
-'''
-          }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+		sh './main.py'
+            }
         }
-
-      }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+           	sh '''ls -la
+		chmod 755 main.py
+		cp main.py /var/www/tls.server.fr/main.cgi''' 
+	   }
+        }
     }
-
-    stage('verifs') {
-      steps {
-        fileExists 'pom.xml'
-        sh 'ls -la'
-      }
-    }
-
-    stage('Build') {
-      steps {
-        sh 'mvn clean install'
-      }
-    }
-
-    stage('report') {
-      steps {
-        echo 'PUBLISH'
-      }
-    }
-
-    stage('deploy') {
-      steps {
-        echo 'deploy'
-      }
-    }
-
-  }
 }
