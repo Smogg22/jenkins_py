@@ -13,6 +13,7 @@ pipeline {
            	sh '''ls -la
 		chmod 755 main.py'''
 		sh './main.py'
+		sh 'pylint main.py'
             }
         }
         stage('Deploy') {
