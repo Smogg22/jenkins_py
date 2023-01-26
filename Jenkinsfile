@@ -10,6 +10,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+           	sh '''ls -la
+		chmod 755 main.py'''
 		sh './main.py'
             }
         }
